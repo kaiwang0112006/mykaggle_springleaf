@@ -1,0 +1,54 @@
+
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: i386-w64-mingw32/i386 (32-bit)
+
+R是自由软件，不带任何担保。
+在某些条件下你可以将其自由散布。
+用'license()'或'licence()'来看散布的详细条件。
+
+R是个合作计划，有许多人为之做出了贡献.
+用'contributors()'来看合作者的详细情况
+用'citation()'会告诉你如何在出版物中正确地引用R或R程序包。
+
+用'demo()'来看一些示范程序，用'help()'来阅读在线帮助文件，或
+用'help.start()'通过HTML浏览器来看帮助文件。
+用'q()'退出R.
+
+> library(readr)
+警告信息：
+程辑包'readr'是用R版本3.1.3 来建造的 
+> library(xgboost)
+警告信息：
+程辑包'xgboost'是用R版本3.1.3 来建造的 
+> 
+> set.seed(1)
+> 
+> cat("reading the train and test data\n")
+reading the train and test data
+> train <- read_csv("train.csv")
+|================================================================================| 100%  920 MB
+警告信息：
+2269 problems parsing 'train.csv'. See problems(...) for more details. 
+> test  <- read_csv("test.csv")
+|================================================================================| 100%  920 MB
+警告信息：
+6894 problems parsing 'test.csv'. See problems(...) for more details. 
+> 
+> feature.names <- names(train)[2:ncol(train)-1]
+> 
+> cat("assuming text variables are categorical & replacing them with numeric ids\n")
+assuming text variables are categorical & replacing them with numeric ids
+> for (f in feature.names) {
++   if (class(train[[f]])=="character") {
++     levels <- unique(c(train[[f]], test[[f]]))
++     train[[f]] <- as.integer(factor(train[[f]], levels=levels))
++     test[[f]]  <- as.integer(factor(test[[f]],  levels=levels))
++   }
++ }
+> 
+> cat("replacing missing values with -1\n")
+replacing missing values with -1
+> train[is.na(train)] <- -1
+错误: 无法分配大小为1.0 Gb的矢量
+停止执行
